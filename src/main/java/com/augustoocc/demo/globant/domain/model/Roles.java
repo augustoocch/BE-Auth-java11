@@ -8,10 +8,9 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "role",
-        schema="universityW3")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "role", schema = "globantauth")
 public class Roles {
 
     @Id
