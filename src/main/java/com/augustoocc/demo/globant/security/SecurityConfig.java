@@ -1,7 +1,6 @@
 package com.augustoocc.demo.globant.security;
 
 import com.augustoocc.demo.globant.service.impl.UserDetailedService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,21 +25,32 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final ServiceConfig serviceConfig;
+    private final JwtEntryPoint jwtEntryPoint;
     private final JwtFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final UserDetailedService userDetailsService;
+
+    public SecurityConfig(ServiceConfig serviceConfig,
+                          JwtEntryPoint jwtEntryPoint,
+                          JwtFilter jwtAuthFilter) {
+        this.jwtEntryPoint = jwtEntryPoint;
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.serviceConfig = serviceConfig;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/auth/**",
+                        "/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
                         "/swagger-ui/**",
@@ -54,25 +64,13 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider)
+                .authenticationProvider(serviceConfig.authenticationProvider())
+                .exceptionHandling().authenticationEntryPoint(this.jwtEntryPoint)
+                .and()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passowrdEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    public String passowrdEncrypt(String passw) {
-        String passwordE = null;
-        try {
-            passwordE = new String(passowrdEncoder().encode(passw).toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return passwordE;
-    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -84,24 +82,6 @@ public class SecurityConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

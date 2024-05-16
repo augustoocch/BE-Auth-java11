@@ -11,7 +11,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user", schema = "globantauth")
 public class User {
@@ -22,13 +21,13 @@ public class User {
     private String surname;
     private String password;
     private String email;
+    private Integer role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Roles> roles;
+    public User(String name, String surname, String password, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+    }
 
 }

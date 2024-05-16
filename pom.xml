@@ -67,7 +67,32 @@
             <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Removed conflicting Spring Web dependency -->
+
+<!--        &lt;!&ndash; springdoc-openapi &ndash;&gt;
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${spring.doc.open.api.ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-data-rest</artifactId>
+            <version>${spring.doc.open.api.ui.version}</version>
+        </dependency>-->
+
+        <!-- spring fox -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
         <!-- spring security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
