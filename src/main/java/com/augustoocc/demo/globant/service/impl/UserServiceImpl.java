@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.augustoocc.demo.globant.domain.constants.Constants.EMAIL_VALID;
 import static com.augustoocc.demo.globant.domain.constants.Constants.PASSWORD_VALID;
@@ -24,15 +25,17 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private PasswordSecurity passwordSecurity;
+    private DateTimeFormatter dateTimeFormatter;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordSecurity passwordSecurity) {
+    public UserServiceImpl(UserRepository userRepository, PasswordSecurity passwordSecurity, DateTimeFormatter dateTimeFormatter) {
         this.userRepository = userRepository;
         this.passwordSecurity = passwordSecurity;
+        this.dateTimeFormatter = dateTimeFormatter;
     }
 
     @Override
     public User login(LoginRequestDto loginRequestDto) {
-        log.info("Starting to search user with email ------ {} at {}", loginRequestDto.getEmail(), ZonedDateTime.now());
+        log.info("Starting to search user with email ------ {} at {}", loginRequestDto.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         return findByEmail(loginRequestDto.getEmail());
     }
 
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(RegisterRequestDto registerRequestDto) {
-        log.info("Starting to register user with email ------ {} at {}", registerRequestDto.getEmail(), ZonedDateTime.now());
+        log.info("Starting to register user with email ------ {} at {}", registerRequestDto.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         validateUser(registerRequestDto);
         String encodedPassword = passwordSecurity.passowrdEncrypt(registerRequestDto.getPassword());
         User newUser = new User(registerRequestDto.getName(), registerRequestDto.getLastName(), encodedPassword, registerRequestDto.getEmail());
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UpdateUserRequestDto user) {
-        log.info("Starting to update user with email ------ {} at {}", user.getEmail(), ZonedDateTime.now());
+        log.info("Starting to update user with email ------ {} at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         User userToUpdate = findByEmail(user.getEmail());
         if (!passwordSecurity.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
             userToUpdate.setPassword(passwordSecurity.passowrdEncrypt(user.getPassword()));
@@ -67,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String email) {
-        log.info("Starting to delete user with email ------ {} at {}", email, ZonedDateTime.now());
+        log.info("Starting to delete user with email ------ {} at {}", email, ZonedDateTime.now().format(dateTimeFormatter));
         User userToDelete = findByEmail(email);
         userRepository.delete(userToDelete);
     }
@@ -83,7 +86,7 @@ public class UserServiceImpl implements UserService {
             throw new GlobantException(INVALID_PASSWORD.getMessage(), INVALID_PASSWORD.getCode());
         }
         if (existsByEmail(user.getEmail())) {
-            throw new GlobantException(EMAIL_ALREADY_EXISTS.getMessage(), EMAIL_ALREADY_EXISTS.getCode());
+            throw new GlobantException(USER_ALREADY_EXISTS.getMessage(), USER_ALREADY_EXISTS.getCode());
         }
         return true;
     }

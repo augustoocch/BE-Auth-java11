@@ -12,5 +12,5 @@ import java.time.ZonedDateTime;
 public class GenericResponseDto {
     private String message;
     private String email;
-    private ZonedDateTime timestamp;
+    private String timestamp;
 }
