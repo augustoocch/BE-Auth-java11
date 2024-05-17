@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.augustoocc.demo.globant.domain.constants.Constants.FORMAT_DATE_DD_MM_YYYY_SS;
-
 @Slf4j
 @RestController
 public class AuthController {
@@ -69,7 +67,7 @@ public class AuthController {
             @RequestBody RegisterRequestDto registerRequestDto){
         userService.register(registerRequestDto);
         return ResponseEntity.ok(new GenericResponseDto("User registered successfully",
-                registerRequestDto.getEmail(), ZonedDateTime.now()));
+                registerRequestDto.getEmail(), ZonedDateTime.now().format(dateTimeFormatter)));
     }
 
     @ExceptionHandler(GlobantException.class)
