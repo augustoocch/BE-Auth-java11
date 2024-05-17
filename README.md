@@ -11,6 +11,9 @@ CREATE TABLE `globantauth`.`user` (
 `password` VARCHAR(45) NOT NULL,
 `email` VARCHAR(45) NOT NULL,
 `role` INT NOT NULL,
+`city` VARCHAR(45) NOT NULL,
+`state` VARCHAR(45) NOT NULL,
+`country` VARCHAR(20) NOT NULL,
 PRIMARY KEY (`id`));
 
 CREATE TABLE `globantauth`.`role` (
@@ -20,6 +23,7 @@ PRIMARY KEY (`id_role`));
 
 INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('1', 'ADMIN');
 INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('2', 'USER');
+INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('3', 'ROLE_MODERATOR');
 
 CREATE TABLE `globantauth`.`user_role` (
 `id_user_role` INT NOT NULL AUTO_INCREMENT,

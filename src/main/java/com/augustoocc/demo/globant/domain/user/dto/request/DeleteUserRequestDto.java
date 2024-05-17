@@ -9,10 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateUserRequestDto {
+public class DeleteUserRequestDto {
     private String email;
-    private String password;
-    private String city;
-    private String country;
-    private String celphone;
 }

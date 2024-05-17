@@ -21,6 +21,9 @@ public class User {
     private String surname;
     private String password;
     private String email;
+    private String city;
+    private String country;
+    private String celphone;
     private Integer role;
 
     public User(String name, String surname, String password, String email) {

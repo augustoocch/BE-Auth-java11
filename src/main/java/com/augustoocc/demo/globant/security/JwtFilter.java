@@ -2,11 +2,10 @@ package com.augustoocc.demo.globant.security;
 
 import javax.servlet.FilterChain;
 
-import lombok.AllArgsConstructor;
+import com.augustoocc.demo.globant.service.impl.UserDetailedService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,11 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private JwtService jwtService;
+    private UserDetailedService userDetailsService;
+
+    public JwtFilter(JwtService jwtService, UserDetailedService userDetailsService) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -38,7 +41,6 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-
         String userNameFromJwt = this.jwtService.getUsernameFromToken(jwt);
         UserDetails userDetails = userDetailsService.loadUserByUsername(userNameFromJwt);
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -46,6 +48,12 @@ public class JwtFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);
+    }
+
+    private String getUsername(HttpServletRequest request) {
+        String jwt = getToken(request);
+        String userNameFromJwt = this.jwtService.getUsernameFromToken(jwt);
+        return userNameFromJwt;
     }
 
     private String getToken(HttpServletRequest request) {

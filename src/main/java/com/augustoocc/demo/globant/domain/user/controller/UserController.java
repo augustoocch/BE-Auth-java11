@@ -1,29 +1,34 @@
 package com.augustoocc.demo.globant.domain.user.controller;
 
+import com.augustoocc.demo.globant.domain.user.dto.request.DeleteUserRequestDto;
 import com.augustoocc.demo.globant.domain.user.dto.request.UpdateUserRequestDto;
-import com.augustoocc.demo.globant.security.JwtService;
+import com.augustoocc.demo.globant.domain.user.dto.response.GenericResponseDto;
 import com.augustoocc.demo.globant.service.UserService;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZonedDateTime;
+
 @RestController("/user")
 public class UserController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtService jwtService;
     private UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/update/user")
-    public void updateUser(@RequestBody UpdateUserRequestDto updateUserRequestDto) {
-        //Authenticate before letting pass the request
-        jwtService.validateToken(updateUserRequestDto.getToken());
+    public ResponseEntity<GenericResponseDto> updateUser(@RequestBody UpdateUserRequestDto updateUserRequestDto) {
         userService.updateUser(updateUserRequestDto);
+        return ResponseEntity.ok(new GenericResponseDto("User updated successfully", updateUserRequestDto.getEmail(), ZonedDateTime.now()));
     }
 
     @PostMapping("/delete/user")
-    public void deleteUser() {
-
+    public ResponseEntity<GenericResponseDto> deleteUser(@RequestBody DeleteUserRequestDto deleteUserRequestDto) {
+        userService.deleteUser(deleteUserRequestDto.getEmail());
+        return ResponseEntity.ok(new GenericResponseDto("User deleted successfully", deleteUserRequestDto.getEmail(), ZonedDateTime.now()));
     }
 }

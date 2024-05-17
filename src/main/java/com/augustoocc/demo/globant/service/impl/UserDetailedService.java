@@ -1,6 +1,6 @@
 package com.augustoocc.demo.globant.service.impl;
 
-import com.augustoocc.demo.globant.domain.constants.RolesEnum;
+
 import com.augustoocc.demo.globant.domain.model.Roles;
 import com.augustoocc.demo.globant.domain.model.User;
 import com.augustoocc.demo.globant.domain.model.repository.RoleRepository;
@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Service
