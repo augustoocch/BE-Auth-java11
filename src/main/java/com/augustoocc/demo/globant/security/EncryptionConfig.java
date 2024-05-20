@@ -15,14 +15,13 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
 
-import static com.augustoocc.demo.globant.domain.constants.ErrorCode.DECRIPTION_ERROR;
+import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
 
 @Configuration
-public class EncryptionConfig<T>{
+public class EncryptionConfig{
 
     @Value("${secret.key}")
     private String SECRET_KEY;
-    private static final String ALGORITHM = "AES";
 
     @Bean
     public BCryptPasswordEncoder passowrdEncoder() {
@@ -30,7 +29,7 @@ public class EncryptionConfig<T>{
     }
 
 
-    public T decryptObject(String encryptedData, Class<T> valueType) {
+    public <T> T decryptObject(String encryptedData, Class<T> valueType) {
         try {
             String[] parts = encryptedData.split(":");
             byte[] iv = Base64.getDecoder().decode(parts[0]);
@@ -47,7 +46,7 @@ public class EncryptionConfig<T>{
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(decryptedString, valueType);
         } catch (Exception e) {
-            throw new GlobantException(DECRIPTION_ERROR.getMessage(), DECRIPTION_ERROR.getCode());
+            throw new GlobantException(DECRYPTION_ERROR.getMessage(), DECRYPTION_ERROR.getCode());
         }
     }
 
@@ -59,14 +58,14 @@ public class EncryptionConfig<T>{
         return new SecretKeySpec(keyBytes, "AES");
     }
 
-    public String passowrdEncrypt(String passw) {
+    public String passwordEncrypt(String passw) {
         String passwordE = null;
         try {
             passwordE = new String(passowrdEncoder().encode(passw).toString());
+            return passwordE;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new GlobantException(ENCRYPTION_ERROR.getMessage(), ENCRYPTION_ERROR.getCode());
         }
-        return passwordE;
     }
 
     public boolean comparePassword(String password, String encodedPassword) {
