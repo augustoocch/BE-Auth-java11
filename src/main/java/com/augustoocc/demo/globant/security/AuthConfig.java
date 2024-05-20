@@ -12,9 +12,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 public class AuthConfig {
 
     private final UserDetailedService userDetailsService;
-    private final PasswordSecurity passwordSecurity;
+    private final EncriptionConfig passwordSecurity;
 
-    public AuthConfig(UserDetailedService userDetailsService, PasswordSecurity passwordSecurity) {
+    public AuthConfig(UserDetailedService userDetailsService, EncriptionConfig passwordSecurity) {
         this.userDetailsService = userDetailsService;
         this.passwordSecurity = passwordSecurity;
     }

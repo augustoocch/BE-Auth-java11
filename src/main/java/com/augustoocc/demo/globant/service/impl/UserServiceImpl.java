@@ -5,7 +5,7 @@ import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
 import com.augustoocc.demo.globant.domain.model.User;
 import com.augustoocc.demo.globant.domain.model.repository.UserRepository;
 import com.augustoocc.demo.globant.domain.user.dto.request.*;
-import com.augustoocc.demo.globant.security.PasswordSecurity;
+import com.augustoocc.demo.globant.security.EncriptionConfig;
 import com.augustoocc.demo.globant.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,10 +25,10 @@ import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private PasswordSecurity passwordSecurity;
+    private EncriptionConfig passwordSecurity;
     private DateTimeFormatter dateTimeFormatter;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordSecurity passwordSecurity, DateTimeFormatter dateTimeFormatter) {
+    public UserServiceImpl(UserRepository userRepository, EncriptionConfig passwordSecurity, DateTimeFormatter dateTimeFormatter) {
         this.userRepository = userRepository;
         this.passwordSecurity = passwordSecurity;
         this.dateTimeFormatter = dateTimeFormatter;
