@@ -18,7 +18,7 @@ import java.util.Base64;
 import static com.augustoocc.demo.globant.domain.constants.ErrorCode.DECRIPTION_ERROR;
 
 @Configuration
-public class EncriptionConfig<T>{
+public class EncryptionConfig<T>{
 
     @Value("${secret.key}")
     private String SECRET_KEY;

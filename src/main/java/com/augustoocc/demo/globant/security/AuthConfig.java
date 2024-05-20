@@ -12,11 +12,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 public class AuthConfig {
 
     private final UserDetailedService userDetailsService;
-    private final EncriptionConfig passwordSecurity;
+    private final EncryptionConfig encryptionConfig;
 
-    public AuthConfig(UserDetailedService userDetailsService, EncriptionConfig passwordSecurity) {
+    public AuthConfig(UserDetailedService userDetailsService, EncryptionConfig encryptionConfig) {
         this.userDetailsService = userDetailsService;
-        this.passwordSecurity = passwordSecurity;
+        this.encryptionConfig = encryptionConfig;
     }
 
 
@@ -24,7 +24,7 @@ public class AuthConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordSecurity.passowrdEncoder());
+        authProvider.setPasswordEncoder(encryptionConfig.passowrdEncoder());
         return authProvider;
     }
 

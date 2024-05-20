@@ -5,7 +5,7 @@ import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
 import com.augustoocc.demo.globant.domain.model.User;
 import com.augustoocc.demo.globant.domain.model.repository.UserRepository;
 import com.augustoocc.demo.globant.domain.user.dto.request.*;
-import com.augustoocc.demo.globant.security.EncriptionConfig;
+import com.augustoocc.demo.globant.security.EncryptionConfig;
 import com.augustoocc.demo.globant.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,24 +25,24 @@ import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private EncriptionConfig passwordSecurity;
+    private EncryptionConfig encryptionConfig;
     private DateTimeFormatter dateTimeFormatter;
 
-    public UserServiceImpl(UserRepository userRepository, EncriptionConfig passwordSecurity, DateTimeFormatter dateTimeFormatter) {
+    public UserServiceImpl(UserRepository userRepository, EncryptionConfig encryptionConfig, DateTimeFormatter dateTimeFormatter) {
         this.userRepository = userRepository;
-        this.passwordSecurity = passwordSecurity;
+        this.encryptionConfig = encryptionConfig;
         this.dateTimeFormatter = dateTimeFormatter;
     }
 
     @Override
     public LoginRequestDto login(EncodedRequest registerRequestDto) {
-        return (LoginRequestDto) passwordSecurity
+        return (LoginRequestDto) encryptionConfig
                 .decryptObject(registerRequestDto.getPayload(), LoginRequestDto.class);
     }
 
     @Override
     public User loginExternal(EncodedRequest registerRequestDto) {
-        LoginExternalDto userDto = (LoginExternalDto) passwordSecurity
+        LoginExternalDto userDto = (LoginExternalDto) encryptionConfig
                 .decryptObject(registerRequestDto.getPayload(), LoginExternalDto.class);
         return this.findByEmail(userDto.getEmail());
     }
@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(EncodedRequest registerReqEncoded) {
-        RegisterRequestDto registerRequestDto = (RegisterRequestDto) passwordSecurity
+        RegisterRequestDto registerRequestDto = (RegisterRequestDto) encryptionConfig
                 .decryptObject(registerReqEncoded.getPayload(), RegisterRequestDto.class);
         log.info("Starting to register user with email ------ {} at {}", registerRequestDto.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         validateUser(registerRequestDto);
-        String encodedPassword = passwordSecurity.passowrdEncrypt(registerRequestDto.getPassword());
+        String encodedPassword = encryptionConfig.passowrdEncrypt(registerRequestDto.getPassword());
         User newUser = new User(registerRequestDto.getName(), registerRequestDto.getSurname(), encodedPassword, registerRequestDto.getEmail());
         newUser.setRole(RolesEnum.ROLE_USER.getId());
         return userRepository.save(newUser);
@@ -67,13 +67,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerExternal(EncodedRequest registerReqEncoded) {
-        RegisterRequestDto registerRequestDto = (RegisterRequestDto) passwordSecurity
+        RegisterRequestDto registerRequestDto = (RegisterRequestDto) encryptionConfig
                 .decryptObject(registerReqEncoded.getPayload(), RegisterRequestDto.class);
         log.info("Starting to register user with email ------ {} at {}", registerRequestDto.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         String password = generateRandomPassword();
         registerRequestDto.setPassword(password);
         validateUser(registerRequestDto);
-        String encodedPassword = passwordSecurity.passowrdEncrypt(registerRequestDto.getPassword());
+        String encodedPassword = encryptionConfig.passowrdEncrypt(registerRequestDto.getPassword());
         User newUser = new User(registerRequestDto.getName(), registerRequestDto.getSurname(), encodedPassword, registerRequestDto.getEmail());
         newUser.setRole(RolesEnum.ROLE_USER.getId());
         return userRepository.save(newUser);
@@ -83,8 +83,8 @@ public class UserServiceImpl implements UserService {
     public User updateUser(UpdateUserRequestDto user) {
         log.info("Starting to update user with email ------ {} at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
         User userToUpdate = findByEmail(user.getEmail());
-        if (!passwordSecurity.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
-            userToUpdate.setPassword(passwordSecurity.passowrdEncrypt(user.getPassword()));
+        if (!encryptionConfig.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
+            userToUpdate.setPassword(encryptionConfig.passowrdEncrypt(user.getPassword()));
         }
         userToUpdate.setCity(user.getCity());
         userToUpdate.setCountry(user.getCountry());
@@ -95,13 +95,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserPassword(EncodedRequest updatePasswEncoded) {
-        UpdateUserPasswordDto user = (UpdateUserPasswordDto) passwordSecurity
+        UpdateUserPasswordDto user = (UpdateUserPasswordDto) encryptionConfig
                 .decryptObject(updatePasswEncoded.getPayload(), UpdateUserPasswordDto.class);
         User userToUpdate = findByEmail(user.getEmail());
-        if (!passwordSecurity.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
-            userToUpdate.setPassword(passwordSecurity.passowrdEncrypt(user.getPassword()));
+        if (!encryptionConfig.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
+            userToUpdate.setPassword(encryptionConfig.passowrdEncrypt(user.getPassword()));
         }
-        String newPasswd = passwordSecurity.passowrdEncrypt(user.getNewPassword());
+        String newPasswd = encryptionConfig.passowrdEncrypt(user.getNewPassword());
         userToUpdate.setPassword(newPasswd);
         userRepository.save(userToUpdate);
         log.info("User updated password successfully with email {} -- at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
@@ -132,6 +132,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public static String generateRandomPassword() {
+        //Generates a password from 8 to 20 with at least one digit, one lowercase, one uppercase
+        //only for external users
         final String ALPHA_LOWER = "abcdefghijklmnopqrstuvwxyz";
         final String ALPHA_UPPER = ALPHA_LOWER.toUpperCase();
         final String DIGITS = "0123456789";
