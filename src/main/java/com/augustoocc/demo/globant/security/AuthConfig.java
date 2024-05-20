@@ -24,7 +24,7 @@ public class AuthConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(encryptionConfig.passowrdEncoder());
+        authProvider.setPasswordEncoder(encryptionConfig.getPasswordEncoder());
         return authProvider;
     }
 

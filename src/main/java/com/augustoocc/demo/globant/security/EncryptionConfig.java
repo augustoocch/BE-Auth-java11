@@ -2,8 +2,8 @@ package com.augustoocc.demo.globant.security;
 
 import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -18,14 +18,16 @@ import java.util.Base64;
 import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
 
 @Configuration
+@Getter
 public class EncryptionConfig{
 
     @Value("${secret.key}")
     private String SECRET_KEY;
 
-    @Bean
-    public BCryptPasswordEncoder passowrdEncoder() {
-        return new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public EncryptionConfig() {
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
 
@@ -61,7 +63,7 @@ public class EncryptionConfig{
     public String passwordEncrypt(String passw) {
         String passwordE = null;
         try {
-            passwordE = new String(passowrdEncoder().encode(passw).toString());
+            passwordE = new String(getPasswordEncoder().encode(passw).toString());
             return passwordE;
         } catch (Exception e) {
             throw new GlobantException(ENCRYPTION_ERROR.getMessage(), ENCRYPTION_ERROR.getCode());
@@ -69,6 +71,7 @@ public class EncryptionConfig{
     }
 
     public boolean comparePassword(String password, String encodedPassword) {
-        return passowrdEncoder().matches(password, encodedPassword);
+       return passwordEncoder.matches(password, encodedPassword);
     }
+
 }

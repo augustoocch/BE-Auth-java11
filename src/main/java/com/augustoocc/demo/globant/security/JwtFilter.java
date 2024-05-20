@@ -36,24 +36,18 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(!this.jwtService.validateToken(jwt)) {
+        String userNameFromJwt = this.jwtService.getUsernameFromToken(jwt);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userNameFromJwt);
+
+        if(!this.jwtService.isTokenValid(jwt)) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        String userNameFromJwt = this.jwtService.getUsernameFromToken(jwt);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userNameFromJwt);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);
-    }
-
-    private String getUsername(HttpServletRequest request) {
-        String jwt = getToken(request);
-        String userNameFromJwt = this.jwtService.getUsernameFromToken(jwt);
-        return userNameFromJwt;
     }
 
     private String getToken(HttpServletRequest request) {

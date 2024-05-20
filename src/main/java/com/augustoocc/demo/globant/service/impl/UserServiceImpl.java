@@ -97,14 +97,16 @@ public class UserServiceImpl implements UserService {
         UpdateUserPasswordDto user = encryptionConfig
                 .decryptObject(updatePasswEncoded.getPayload(), UpdateUserPasswordDto.class);
         User userToUpdate = findByEmail(user.getEmail());
-        if (!encryptionConfig.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
+        if (encryptionConfig.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
             userToUpdate.setPassword(encryptionConfig.passwordEncrypt(user.getPassword()));
+            String newPasswd = encryptionConfig.passwordEncrypt(user.getNewPassword());
+            userToUpdate.setPassword(newPasswd);
+            userRepository.save(userToUpdate);
+            log.info("User updated password successfully with email {} -- at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
+            return userToUpdate;
+        } else {
+            throw new GlobantException(INVALID_PASSWORD.getMessage(), INVALID_PASSWORD.getCode());
         }
-        String newPasswd = encryptionConfig.passwordEncrypt(user.getNewPassword());
-        userToUpdate.setPassword(newPasswd);
-        userRepository.save(userToUpdate);
-        log.info("User updated password successfully with email {} -- at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
-        return userToUpdate;
     }
 
     @Override
