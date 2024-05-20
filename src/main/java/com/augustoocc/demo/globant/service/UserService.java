@@ -2,13 +2,16 @@ package com.augustoocc.demo.globant.service;
 
 import com.augustoocc.demo.globant.domain.model.User;
 import com.augustoocc.demo.globant.domain.user.dto.request.LoginRequestDto;
-import com.augustoocc.demo.globant.domain.user.dto.request.RegisterRequestDto;
+import com.augustoocc.demo.globant.domain.user.dto.request.EncodedRequest;
 import com.augustoocc.demo.globant.domain.user.dto.request.UpdateUserRequestDto;
 
 public interface UserService {
-    User login(LoginRequestDto loginRequestDto);
+    LoginRequestDto login(EncodedRequest registerRequestDto);
+    User loginExternal(EncodedRequest registerRequestDto);
     User findByEmail(String email);
-    User register(RegisterRequestDto user);
-    void updateUser(UpdateUserRequestDto user);
+    User register(EncodedRequest registerReqEncoded);
+    User registerExternal(EncodedRequest registerReqEncoded);
+    User updateUser(UpdateUserRequestDto user);
+    User updateUserPassword(EncodedRequest updatePasswEncoded);
     void deleteUser(String email);
 }

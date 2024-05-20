@@ -9,9 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestDto {
-    private String email;
-    private String password;
-    private String name;
-    private String surname;
+public class EncodedRequest {
+    private String payload;
 }

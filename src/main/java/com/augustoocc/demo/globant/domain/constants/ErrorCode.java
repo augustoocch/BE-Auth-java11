@@ -10,7 +10,8 @@ public enum ErrorCode {
     INVALID_EMAIL_FORMAT("Invalid email format", 1008),
     INVALID_NAME("Invalid name", 1009),
     INVALID_LAST_NAME("Invalid last name", 1010),
-    EMAIL_PASSWORD_REQUIRED("Email and password are required", 1011);
+    EMAIL_PASSWORD_REQUIRED("Email and password are required", 1011),
+    DECRIPTION_ERROR("Error on decrypting", 1012);
 
     private final String message;
     private final int code;

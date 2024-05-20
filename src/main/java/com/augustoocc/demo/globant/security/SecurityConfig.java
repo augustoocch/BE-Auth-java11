@@ -59,9 +59,7 @@ public class SecurityConfig {
                 .authenticationProvider(serviceConfig.authenticationProvider())
                 .exceptionHandling().authenticationEntryPoint(this.jwtEntryPoint)
                 .and()
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors()
-                .configurationSource(corsConfigurationSource());
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
