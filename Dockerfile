@@ -1,5 +1,7 @@
-FROM eclipse-temurin:11-jdk-alpine
+FROM adoptopenjdk/openjdk11:jre-11.0.8_10-alpine
 VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+WORKDIR /app
+COPY pom.xml .
+COPY src/ /app/src/
+COPY target/*.jar app.jar
+ENTRYPOINT ["java", "-Dspring.profiles.active=k8s", "-jar", "app.jar"]

@@ -11,5 +11,4 @@ public class GlobantAuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(GlobantAuthApplication.class, args);
     }
-
 }

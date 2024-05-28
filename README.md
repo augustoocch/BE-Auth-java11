@@ -2,34 +2,34 @@
 
 ##DATABASE CODE
 ```
-CREATE SCHEMA `globantauth` ;
+    CREATE SCHEMA `globantauth` ;
 
-CREATE TABLE `globantauth`.`user` (
-`id` INT NOT NULL AUTO_INCREMENT,
-`name` VARCHAR(45) NOT NULL,
-`surname` VARCHAR(45) NOT NULL,
-`password` VARCHAR(45) NOT NULL,
-`email` VARCHAR(45) NOT NULL,
-`role` INT NOT NULL,
-`city` VARCHAR(45) NOT NULL,
-`state` VARCHAR(45) NOT NULL,
-`country` VARCHAR(20) NOT NULL,
-PRIMARY KEY (`id`));
-
-CREATE TABLE `globantauth`.`role` (
-`id_role` INT NOT NULL AUTO_INCREMENT,
-`role` VARCHAR(45) NOT NULL,
-PRIMARY KEY (`id_role`));
-
-INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('1', 'ADMIN');
-INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('2', 'USER');
-INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('3', 'ROLE_MODERATOR');
-
-CREATE TABLE `globantauth`.`user_role` (
-`id_user_role` INT NOT NULL AUTO_INCREMENT,
-`user_id` INT NOT NULL,
-`role_id` INT NOT NULL,
-PRIMARY KEY (`id_user_role`),
-CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id_role`));
+    CREATE TABLE `globantauth`.`user` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(45) NOT NULL,
+    `surname` VARCHAR(45) NOT NULL,
+    `password` VARCHAR(45) NOT NULL,
+    `email` VARCHAR(45) NOT NULL,
+    `role` INT NOT NULL,
+    `city` VARCHAR(45) NOT NULL,
+    `state` VARCHAR(45) NOT NULL,
+    `country` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`));
+    
+    CREATE TABLE `globantauth`.`role` (
+    `id_role` INT NOT NULL AUTO_INCREMENT,
+    `role` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id_role`));
+    
+    INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('1', 'ADMIN');
+    INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('2', 'USER');
+    INSERT INTO `globantauth`.`role` (`id_role`, `role`) VALUES ('3', 'ROLE_MODERATOR');
+    
+    CREATE TABLE `globantauth`.`user_role` (
+    `id_user_role` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `role_id` INT NOT NULL,
+    PRIMARY KEY (`id_user_role`),
+    CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+    CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`id_role`));
 ```
