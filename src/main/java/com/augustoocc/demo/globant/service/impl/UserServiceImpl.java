@@ -98,7 +98,6 @@ public class UserServiceImpl implements UserService {
                 .decryptObject(updatePasswEncoded.getPayload(), UpdateUserPasswordDto.class);
         User userToUpdate = findByEmail(user.getEmail());
         if (encryptionConfig.comparePassword(user.getPassword(), userToUpdate.getPassword())) {
-            log.info("Passwords are the same, updating password for user with email {} -- at {}", user.getEmail(), ZonedDateTime.now().format(dateTimeFormatter));
             userToUpdate.setPassword(encryptionConfig.passwordEncrypt(user.getPassword()));
             String newPasswd = encryptionConfig.passwordEncrypt(user.getNewPassword());
             userToUpdate.setPassword(newPasswd);
