@@ -1,15 +1,15 @@
 package com.augustoocc.demo.globant.security.auth;
 
-import com.augustoocc.demo.globant.domain.exceptions.ExceptionDto;
-import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
-import com.augustoocc.demo.globant.domain.model.User;
+import com.augustoocc.demo.globant.model.exceptions.ExceptionDto;
+import com.augustoocc.demo.globant.model.exceptions.GlobantException;
+import com.augustoocc.demo.globant.model.repository.entity.User;
 import com.augustoocc.demo.globant.domain.user.dto.request.LoginRequestDto;
 import com.augustoocc.demo.globant.domain.user.dto.request.EncodedRequest;
 import com.augustoocc.demo.globant.domain.user.dto.response.LoginResponseDto;
 import com.augustoocc.demo.globant.domain.user.dto.response.GenericResponseDto;
 import com.augustoocc.demo.globant.security.JwtService;
-import com.augustoocc.demo.globant.service.UserService;
-import com.augustoocc.demo.globant.service.impl.UserDetailedService;
+import com.augustoocc.demo.globant.model.service.UserService;
+import com.augustoocc.demo.globant.model.service.impl.UserDetailedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

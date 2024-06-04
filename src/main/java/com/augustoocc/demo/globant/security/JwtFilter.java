@@ -2,7 +2,7 @@ package com.augustoocc.demo.globant.security;
 
 import javax.servlet.FilterChain;
 
-import com.augustoocc.demo.globant.service.impl.UserDetailedService;
+import com.augustoocc.demo.globant.model.service.impl.UserDetailedService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

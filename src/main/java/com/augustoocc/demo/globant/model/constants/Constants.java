@@ -1,4 +1,4 @@
-package com.augustoocc.demo.globant.domain.constants;
+package com.augustoocc.demo.globant.model.constants;
 
 public class Constants {
 

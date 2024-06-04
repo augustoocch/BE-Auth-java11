@@ -1,12 +1,12 @@
-package com.augustoocc.demo.globant.service.impl;
+package com.augustoocc.demo.globant.model.service.impl;
 
-import com.augustoocc.demo.globant.domain.constants.RolesEnum;
-import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
-import com.augustoocc.demo.globant.domain.model.User;
-import com.augustoocc.demo.globant.domain.model.repository.UserRepository;
+import com.augustoocc.demo.globant.model.constants.RolesEnum;
+import com.augustoocc.demo.globant.model.exceptions.GlobantException;
+import com.augustoocc.demo.globant.model.repository.entity.User;
+import com.augustoocc.demo.globant.model.repository.UserRepository;
 import com.augustoocc.demo.globant.domain.user.dto.request.*;
+import com.augustoocc.demo.globant.model.service.UserService;
 import com.augustoocc.demo.globant.security.EncryptionConfig;
-import com.augustoocc.demo.globant.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.augustoocc.demo.globant.domain.constants.Constants.*;
-import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
+import static com.augustoocc.demo.globant.model.constants.Constants.*;
+import static com.augustoocc.demo.globant.model.constants.ErrorCode.*;
 
 @Slf4j
 @Service

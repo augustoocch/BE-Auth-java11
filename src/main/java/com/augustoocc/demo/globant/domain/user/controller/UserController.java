@@ -1,13 +1,13 @@
 package com.augustoocc.demo.globant.domain.user.controller;
 
-import com.augustoocc.demo.globant.domain.exceptions.ExceptionDto;
-import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
-import com.augustoocc.demo.globant.domain.model.User;
+import com.augustoocc.demo.globant.model.exceptions.ExceptionDto;
+import com.augustoocc.demo.globant.model.exceptions.GlobantException;
+import com.augustoocc.demo.globant.model.repository.entity.User;
 import com.augustoocc.demo.globant.domain.user.dto.request.DeleteUserRequestDto;
 import com.augustoocc.demo.globant.domain.user.dto.request.EncodedRequest;
 import com.augustoocc.demo.globant.domain.user.dto.request.UpdateUserRequestDto;
 import com.augustoocc.demo.globant.domain.user.dto.response.GenericResponseDto;
-import com.augustoocc.demo.globant.service.UserService;
+import com.augustoocc.demo.globant.model.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

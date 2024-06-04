@@ -1,6 +1,6 @@
 package com.augustoocc.demo.globant.security;
 
-import com.augustoocc.demo.globant.service.impl.UserDetailedService;
+import com.augustoocc.demo.globant.model.service.impl.UserDetailedService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,6 @@ public class AuthConfig {
         this.userDetailsService = userDetailsService;
         this.encryptionConfig = encryptionConfig;
     }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

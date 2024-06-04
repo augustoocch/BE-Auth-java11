@@ -1,6 +1,6 @@
-package com.augustoocc.demo.globant.service;
+package com.augustoocc.demo.globant.model.service;
 
-import com.augustoocc.demo.globant.domain.model.User;
+import com.augustoocc.demo.globant.model.repository.entity.User;
 import com.augustoocc.demo.globant.domain.user.dto.request.LoginRequestDto;
 import com.augustoocc.demo.globant.domain.user.dto.request.EncodedRequest;
 import com.augustoocc.demo.globant.domain.user.dto.request.UpdateUserRequestDto;

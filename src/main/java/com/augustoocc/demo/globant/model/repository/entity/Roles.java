@@ -1,4 +1,4 @@
-package com.augustoocc.demo.globant.domain.model;
+package com.augustoocc.demo.globant.model.repository.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "role", schema = "globantauth")
 public class Roles {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_role")

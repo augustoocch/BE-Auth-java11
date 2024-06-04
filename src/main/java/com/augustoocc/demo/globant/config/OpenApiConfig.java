@@ -1,4 +1,4 @@
-package com.augustoocc.demo.globant.config.swagger;
+package com.augustoocc.demo.globant.config;
 
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.OpenAPI;

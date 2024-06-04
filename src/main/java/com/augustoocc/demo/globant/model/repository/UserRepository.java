@@ -1,6 +1,6 @@
-package com.augustoocc.demo.globant.domain.model.repository;
+package com.augustoocc.demo.globant.model.repository;
 
-import com.augustoocc.demo.globant.domain.model.User;
+import com.augustoocc.demo.globant.model.repository.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

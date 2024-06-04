@@ -1,6 +1,6 @@
 package com.augustoocc.demo.globant.security;
 
-import com.augustoocc.demo.globant.domain.exceptions.GlobantException;
+import com.augustoocc.demo.globant.model.exceptions.GlobantException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,8 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
 
-import static com.augustoocc.demo.globant.domain.constants.ErrorCode.*;
+import static com.augustoocc.demo.globant.model.constants.ErrorCode.DECRYPTION_ERROR;
+import static com.augustoocc.demo.globant.model.constants.ErrorCode.ENCRYPTION_ERROR;
 
 @Configuration
 @Getter

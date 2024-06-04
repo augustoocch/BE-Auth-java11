@@ -1,4 +1,4 @@
-package com.augustoocc.demo.globant.domain.exceptions;
+package com.augustoocc.demo.globant.model.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

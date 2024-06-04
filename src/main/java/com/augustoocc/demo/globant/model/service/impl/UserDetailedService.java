@@ -1,10 +1,10 @@
-package com.augustoocc.demo.globant.service.impl;
+package com.augustoocc.demo.globant.model.service.impl;
 
 
-import com.augustoocc.demo.globant.domain.model.Roles;
-import com.augustoocc.demo.globant.domain.model.User;
-import com.augustoocc.demo.globant.domain.model.repository.RoleRepository;
-import com.augustoocc.demo.globant.service.UserService;
+import com.augustoocc.demo.globant.model.repository.entity.Roles;
+import com.augustoocc.demo.globant.model.repository.entity.User;
+import com.augustoocc.demo.globant.model.repository.RoleRepository;
+import com.augustoocc.demo.globant.model.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.augustoocc.demo.globant.domain.model;
+package com.augustoocc.demo.globant.model.repository.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
